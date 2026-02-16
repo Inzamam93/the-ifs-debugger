@@ -6,7 +6,7 @@ Personal technical blog by **Inzamam** — deep-dive articles on IFS Application
 
 🌐 **Live site:** [theifsdebugger.com](https://theifsdebugger.com)
 ☕ **Support:** [ko-fi.com/inzamam](https://ko-fi.com/inzamam)
-💼 **LinkedIn:** [linkedin.com/in/inzamam](https://linkedin.com/in/inzamam)
+💼 **LinkedIn:** [linkedin.com/in/inzamam](https://linkedin.com/in/inzamam-ghazzali/)
 
 ---
 
