@@ -4,7 +4,7 @@
 
 Personal technical blog by **Inzamam** — deep-dive articles on IFS Applications development, customisation, integrations, and performance tuning.
 
-🌐 **Live site:** [theifsdebugger.com](https://theifsdebugger.com)
+🌐 **Live site:** [inzamam93.github.io/the-ifs-debugger]([https://inzamam93.github.io/the-ifs-debugger/])
 ☕ **Support:** [ko-fi.com/inzamam](https://ko-fi.com/inzamam)
 💼 **LinkedIn:** [linkedin.com/in/inzamam](https://linkedin.com/in/inzamam-ghazzali/)
 
