@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ============================================================
+     BASIC SEO
+     Replace: YOUR_GA_MEASUREMENT_ID with your real GA4 ID
+     e.g. G-XXXXXXXXXX (found in Google Analytics → Admin → Data Streams)
+     ============================================================ -->
+
+<!-- Primary Meta Tags -->
+<title>The IFS Debugger — Deep IFS ERP Technical Writing by Inzamam</title>
+<meta name="title" content="The IFS Debugger — Deep IFS ERP Technical Writing by Inzamam">
+<meta name="description" content="Deep technical articles on IFS Applications — PL/SQL, IFS Cloud, Projections, IFS Connect, performance tuning, and customisation. Written by a practitioner with 12+ years in the IFS ecosystem. No paywall. No fluff.">
+<meta name="keywords" content="IFS ERP, IFS Applications, IFS Cloud, IFS technical blog, IFS developer, PL/SQL IFS, IFS Connect, IFS customisation, IFS App10, IFS Aurena, IFS projection API, IFS consulting, IFS training">
+<meta name="author" content="Inzamam">
+<meta name="robots" content="index, follow">
+<meta name="language" content="English">
+<link rel="canonical" href="https://theifsdebugger.com/">
+
+<!-- ============================================================
+     OPEN GRAPH — Controls how your link looks on LinkedIn
+     This is critical for professional sharing
+     ============================================================ -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://theifsdebugger.com/">
+<meta property="og:title" content="The IFS Debugger — Deep IFS ERP Technical Writing">
+<meta property="og:description" content="Deep technical articles on IFS Applications — PL/SQL, IFS Cloud, Projections, IFS Connect, and more. Written by a practitioner with 12+ years in the IFS ecosystem. No paywall. No fluff.">
+<meta property="og:image" content="https://theifsdebugger.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The IFS Debugger — Technical blog by Inzamam">
+<meta property="og:site_name" content="The IFS Debugger">
+<meta property="og:locale" content="en_GB">
+
+<!-- ============================================================
+     TWITTER / X CARD
+     Controls link previews on X (Twitter)
+     ============================================================ -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://theifsdebugger.com/">
+<meta name="twitter:title" content="The IFS Debugger — Deep IFS ERP Technical Writing">
+<meta name="twitter:description" content="Deep technical articles on IFS Applications — PL/SQL, IFS Cloud, Projections, IFS Connect, and more. No paywall. No fluff.">
+<meta name="twitter:image" content="https://theifsdebugger.com/og-image.png">
+<meta name="twitter:creator" content="@inzamam">
+
+<!-- ============================================================
+     STRUCTURED DATA (JSON-LD)
+     Helps Google understand this is a blog/person
+     Improves rich search results
+     ============================================================ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Blog",
+      "@id": "https://theifsdebugger.com/#blog",
+      "name": "The IFS Debugger",
+      "description": "Deep technical articles on IFS Applications by Inzamam — PL/SQL, IFS Cloud, customisation, integrations, and performance tuning.",
+      "url": "https://theifsdebugger.com",
+      "inLanguage": "en-GB",
+      "author": {
+        "@id": "https://theifsdebugger.com/#author"
+      },
+      "publisher": {
+        "@id": "https://theifsdebugger.com/#author"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://theifsdebugger.com/#author",
+      "name": "Inzamam",
+      "url": "https://theifsdebugger.com",
+      "description": "IFS ERP technical specialist with 12+ years experience in IFS customisation, integration, and performance tuning.",
+      "sameAs": [
+        "https://linkedin.com/in/inzamam",
+        "https://github.com/inzamam",
+        "https://ko-fi.com/inzamam"
+      ],
+      "knowsAbout": [
+        "IFS Applications",
+        "IFS Cloud",
+        "PL/SQL",
+        "Oracle Database",
+        "IFS Connect",
+        "ERP Consulting"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://theifsdebugger.com/#website",
+      "url": "https://theifsdebugger.com",
+      "name": "The IFS Debugger",
+      "description": "Deep IFS ERP technical writing by Inzamam",
+      "publisher": {
+        "@id": "https://theifsdebugger.com/#author"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://theifsdebugger.com/?s={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+  ]
+}
+</script>
+
+<!-- ============================================================
+     GOOGLE ANALYTICS 4
+     Replace YOUR_GA_MEASUREMENT_ID with your real ID
+     How to get it:
+     1. Go to analytics.google.com
+     2. Create a free account → new Property
+     3. Add a Web data stream → enter theifsdebugger.com
+     4. Copy the Measurement ID (format: G-XXXXXXXXXX)
+     5. Replace both instances of YOUR_GA_MEASUREMENT_ID below
+     ============================================================ -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=YOUR_GA_MEASUREMENT_ID"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'YOUR_GA_MEASUREMENT_ID', {
+    page_title: 'Home — The IFS Debugger',
+    page_location: 'https://theifsdebugger.com/'
+  });
+</script>
+
+<!-- ============================================================
+     FAVICON
+     Create a favicon at favicon.io and replace these links
+     ============================================================ -->
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#090c0a">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;0,800;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #090c0a;
+    --bg2: #0d1210;
+    --bg3: #111a16;
+    --border: #1a2e22;
+    --border2: #243d2e;
+    --green: #00e676;
+    --green-dim: #00c45e;
+    --green-dark: #004d26;
+    --green-glow: rgba(0, 230, 118, 0.08);
+    --amber: #ffb300;
+    --red: #ff5252;
+    --blue: #40c4ff;
+    --text: #c8ddd0;
+    --text-muted: #5a7a65;
+    --text-dim: #2d4a38;
+    --font-mono: 'JetBrains Mono', monospace;
+    --font-serif: 'Fraunces', serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    line-height: 1.8;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* Scanline effect */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.03) 2px,
+      rgba(0,0,0,0.03) 4px
+    );
+    pointer-events: none;
+    z-index: 999;
+  }
+
+  /* Custom cursor */
+  * { cursor: none !important; }
+  .cursor-dot {
+    position: fixed;
+    width: 4px; height: 18px;
+    background: var(--green);
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    animation: cursor-blink 1s step-end infinite;
+    box-shadow: 0 0 8px var(--green);
+  }
+
+  @keyframes cursor-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  /* ===== TOP BAR ===== */
+  .top-bar {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 0.4rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+
+  .top-bar-left { display: flex; gap: 1.5rem; }
+  .top-bar .ok { color: var(--green); }
+  .top-bar .warn { color: var(--amber); }
+
+  /* ===== NAV ===== */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 900;
+    background: rgba(9, 12, 10, 0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0;
+  }
+
+  .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .logo-wrap {
+    padding: 1.1rem 2rem 1.1rem 0;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    text-decoration: none;
+  }
+
+  .logo-main {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--green);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    text-shadow: 0 0 20px rgba(0,230,118,0.4);
+  }
+
+  .logo-sub {
+    font-size: 0.58rem;
+    color: var(--text-muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .nav-tabs {
+    display: flex;
+    align-items: stretch;
+    list-style: none;
+    margin-left: 0.5rem;
+  }
+
+  .nav-tabs li a {
+    display: flex;
+    align-items: center;
+    padding: 0 1.5rem;
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-right: 1px solid var(--border);
+    transition: all 0.15s;
+    gap: 0.4rem;
+    height: 100%;
+  }
+
+  .nav-tabs li a:hover {
+    color: var(--green);
+    background: var(--green-glow);
+  }
+
+  .nav-tabs li a.active {
+    color: var(--green);
+    background: var(--green-glow);
+    border-bottom: 2px solid var(--green);
+  }
+
+  .nav-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-left: 1.5rem;
+  }
+
+  .nav-kofi {
+    font-size: 0.65rem;
+    font-weight: 700;
+    background: transparent;
+    border: 1px solid var(--green);
+    color: var(--green);
+    padding: 0.4rem 1rem;
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+
+  .nav-kofi:hover {
+    background: var(--green);
+    color: var(--bg);
+    box-shadow: 0 0 20px rgba(0,230,118,0.3);
+  }
+
+  /* ===== HERO / TERMINAL ===== */
+  .hero {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem 2rem 3rem;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .terminal-window {
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-radius: 2px;
+    overflow: hidden;
+    box-shadow: 0 0 60px rgba(0,230,118,0.05), 0 20px 60px rgba(0,0,0,0.5);
+  }
+
+  .terminal-titlebar {
+    background: var(--bg3);
+    border-bottom: 1px solid var(--border);
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .tb-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+  }
+  .tb-dot.red { background: #ff5f57; }
+  .tb-dot.yellow { background: #febc2e; }
+  .tb-dot.green { background: #28c840; }
+
+  .tb-title {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    margin-left: 0.5rem;
+    letter-spacing: 0.05em;
+  }
+
+  .terminal-body {
+    padding: 1.5rem;
+    font-size: 0.8rem;
+    line-height: 2;
+  }
+
+  .t-prompt { color: var(--green); }
+  .t-path { color: var(--blue); }
+  .t-cmd { color: var(--text); }
+  .t-comment { color: var(--text-muted); font-style: italic; }
+  .t-output { color: var(--text-muted); padding-left: 1rem; }
+  .t-success { color: var(--green); }
+  .t-warn { color: var(--amber); }
+  .t-error { color: var(--red); }
+  .t-cursor {
+    display: inline-block;
+    width: 8px; height: 14px;
+    background: var(--green);
+    vertical-align: middle;
+    animation: cursor-blink 1s step-end infinite;
+  }
+  .t-line { display: block; }
+
+  /* Hero text */
+  .hero-text { padding-top: 1rem; }
+
+  .hero-badge {
+    display: inline-block;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--green);
+    border: 1px solid var(--green-dark);
+    background: var(--green-glow);
+    padding: 0.25rem 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-title {
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    line-height: 1.05;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--green);
+    font-weight: 300;
+  }
+
+  .hero-tagline {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    padding-left: 2px;
+  }
+
+  .hero-tagline::before {
+    content: '// ';
+    color: var(--text-dim);
+  }
+
+  .hero-desc {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    color: var(--text-muted);
+    line-height: 1.9;
+    margin-bottom: 2rem;
+    font-weight: 300;
+  }
+
+  .hero-meta {
+    display: flex;
+    gap: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .meta-item { display: flex; flex-direction: column; gap: 0.2rem; }
+  .meta-val {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--green);
+    line-height: 1;
+    text-shadow: 0 0 20px rgba(0,230,118,0.3);
+  }
+  .meta-key {
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* ===== DIVIDER ===== */
+  .full-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 0;
+  }
+
+  /* ===== FEATURED POST ===== */
+  .featured-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .section-tag {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--green);
+    background: var(--green-glow);
+    border: 1px solid var(--green-dark);
+    padding: 0.2rem 0.6rem;
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .section-count {
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+  }
+
+  /* ===== BLOG GRID ===== */
+  .blog-layout {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 1px;
+    background: var(--border);
+  }
+
+  .post-card {
+    background: var(--bg);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .post-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 2px;
+    background: var(--green);
+    transform: scaleY(0);
+    transition: transform 0.3s ease;
+    transform-origin: bottom;
+  }
+
+  .post-card:hover { background: var(--bg2); }
+  .post-card:hover::before { transform: scaleY(1); }
+
+  .post-card.featured {
+    background: var(--bg2);
+    grid-row: span 2;
+    padding: 2.5rem;
+    border-right: 1px solid var(--border);
+  }
+
+  .post-card.featured::before { transform: scaleY(1); }
+
+  .post-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .post-cat {
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.5rem;
+    border-radius: 1px;
+  }
+
+  .cat-deep { background: rgba(64,196,255,0.1); color: var(--blue); border: 1px solid rgba(64,196,255,0.2); }
+  .cat-tutorial { background: rgba(0,230,118,0.1); color: var(--green); border: 1px solid rgba(0,230,118,0.2); }
+  .cat-tips { background: rgba(255,179,0,0.1); color: var(--amber); border: 1px solid rgba(255,179,0,0.2); }
+  .cat-debug { background: rgba(255,82,82,0.1); color: var(--red); border: 1px solid rgba(255,82,82,0.2); }
+
+  .post-date {
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+  }
+
+  .post-title {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+  }
+
+  .post-card.featured .post-title {
+    font-size: 1.6rem;
+    line-height: 1.2;
+  }
+
+  .post-excerpt {
+    font-family: var(--font-serif);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.85;
+    font-weight: 300;
+    flex: 1;
+  }
+
+  /* Inline code block */
+  .mini-code {
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    border-left: 3px solid var(--green-dark);
+    padding: 0.85rem 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    line-height: 1.9;
+    color: var(--text-muted);
+    margin: 0.5rem 0;
+    overflow: hidden;
+  }
+
+  .mini-code .kw { color: var(--green); }
+  .mini-code .cm { color: var(--text-dim); }
+  .mini-code .str { color: var(--amber); }
+  .mini-code .fn { color: var(--blue); }
+  .mini-code .num { color: #ce93d8; }
+
+  .post-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border);
+    margin-top: auto;
+  }
+
+  .post-readtime {
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+  }
+
+  .post-read-link {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--green);
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: gap 0.2s;
+  }
+
+  .post-card:hover .post-read-link { gap: 0.6rem; }
+
+  /* Tags on post */
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.25rem;
+  }
+
+  .ptag {
+    font-size: 0.58rem;
+    color: var(--text-dim);
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    padding: 0.15rem 0.5rem;
+    letter-spacing: 0.06em;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .post-card:hover .ptag {
+    color: var(--text-muted);
+    border-color: var(--border2);
+  }
+
+  /* ===== ABOUT STRIP ===== */
+  .about-strip {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .about-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .about-avatar {
+    width: 72px; height: 72px;
+    border: 2px solid var(--green-dark);
+    background: var(--bg3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--green);
+    font-family: var(--font-mono);
+    text-shadow: 0 0 20px rgba(0,230,118,0.5);
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .about-avatar::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border: 1px solid var(--green-dark);
+    animation: rotate-border 8s linear infinite;
+  }
+
+  @keyframes rotate-border {
+    from { transform: rotate(0deg); clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%); }
+    to { transform: rotate(360deg); clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%); }
+  }
+
+  .about-text {}
+
+  .about-name {
+    font-size: 0.65rem;
+    color: var(--green);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+
+  .about-name::before { content: '$ whoami → '; color: var(--text-dim); }
+
+  .about-bio {
+    font-family: var(--font-serif);
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+    font-weight: 300;
+    max-width: 560px;
+  }
+
+  .about-bio strong { color: var(--text); font-weight: 700; font-family: var(--font-mono); font-size: 0.85rem; }
+
+  .about-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-end;
+  }
+
+  .btn-green {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: var(--green);
+    color: var(--bg);
+    padding: 0.6rem 1.25rem;
+    text-decoration: none;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .btn-green:hover {
+    background: #00ff88;
+    box-shadow: 0 0 25px rgba(0,230,118,0.4);
+  }
+
+  .btn-ghost-green {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    border: 1px solid var(--border2);
+    padding: 0.6rem 1.25rem;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .btn-ghost-green:hover {
+    color: var(--green);
+    border-color: var(--green-dark);
+  }
+
+  /* ===== TOPICS ===== */
+  .topics-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+  }
+
+  .topics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+  }
+
+  .topic-item {
+    background: var(--bg);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .topic-item:hover { background: var(--bg2); }
+
+  .topic-icon {
+    font-size: 1.25rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .topic-name {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.03em;
+  }
+
+  .topic-count {
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+  }
+
+  .topic-bar {
+    height: 2px;
+    background: var(--border);
+    margin-top: 0.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .topic-bar-fill {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    background: var(--green);
+    opacity: 0.4;
+    transition: opacity 0.3s;
+  }
+
+  .topic-item:hover .topic-bar-fill { opacity: 1; }
+
+  /* ===== FOOTER ===== */
+  footer {
+    border-top: 1px solid var(--border);
+    background: var(--bg2);
+  }
+
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .footer-logo {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: var(--green);
+    text-shadow: 0 0 15px rgba(0,230,118,0.3);
+  }
+
+  .footer-tagline {
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    margin-top: 0.2rem;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .footer-links a {
+    font-size: 0.62rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--green); }
+
+  .footer-copy {
+    font-size: 0.58rem;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+  }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes typeIn {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+
+  .hero-text { animation: fadeIn 0.7s ease 0.1s both; }
+  .terminal-window { animation: fadeIn 0.7s ease 0.3s both; }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 860px) {
+    .hero { grid-template-columns: 1fr; padding: 2rem 1.5rem; }
+    .terminal-window { display: none; }
+    .blog-layout { grid-template-columns: 1fr; }
+    .post-card.featured { grid-row: auto; border-right: none; }
+    .about-inner { grid-template-columns: 1fr; gap: 1.5rem; }
+    .about-actions { align-items: flex-start; flex-direction: row; }
+    .topics-grid { grid-template-columns: repeat(2, 1fr); }
+    .nav-tabs { display: none; }
+    .top-bar { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor-dot" id="cursor"></div>
+
+<!-- TOP STATUS BAR -->
+<div class="top-bar">
+  <div class="top-bar-left">
+    <span><span class="ok">●</span> PROCESS: blog.render() — OK</span>
+    <span><span class="warn">▲</span> IFS CLOUD 24R2 — articles pending</span>
+    <span><span class="ok">●</span> Ko-fi donations: open</span>
+  </div>
+  <div>theifsdebugger.com — EST. 2025</div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo-wrap">
+      <div class="logo-main">// THE IFS DEBUGGER</div>
+      <div class="logo-sub">by Inzamam · Following the stack trace so you don't have to</div>
+    </a>
+    <ul class="nav-tabs">
+      <li><a href="#" class="active">~/home</a></li>
+      <li><a href="#posts">~/articles</a></li>
+      <li><a href="#topics">~/topics</a></li>
+      <li><a href="#about">~/about</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="https://ko-fi.com" class="nav-kofi">☕ Buy Me a Coffee</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-text">
+    <div class="hero-badge">● Live — New articles dropping regularly</div>
+    <h1 class="hero-title">The IFS<br><em>Debugger.</em></h1>
+    <div class="hero-tagline">Following the stack trace so you don't have to</div>
+    <p class="hero-desc">
+      Deep technical writing on IFS Applications — from PL/SQL internals and customisation patterns to IFS Cloud projections and integration architecture. Written by a practitioner, for practitioners.
+    </p>
+    <div class="hero-meta">
+      <div class="meta-item">
+        <div class="meta-val">12+</div>
+        <div class="meta-key">yrs IFS exp</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-val">40+</div>
+        <div class="meta-key">articles</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-val">0</div>
+        <div class="meta-key">paywalls</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-val">∞</div>
+        <div class="meta-key">stack traces</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TERMINAL -->
+  <div class="terminal-window">
+    <div class="terminal-titlebar">
+      <div class="tb-dot red"></div>
+      <div class="tb-dot yellow"></div>
+      <div class="tb-dot green"></div>
+      <div class="tb-title">inzamam@ifs-debugger: ~/blog</div>
+    </div>
+    <div class="terminal-body">
+      <span class="t-line"><span class="t-prompt">inzamam</span><span class="t-path">@ifs-debugger</span> ~ % <span class="t-cmd">whoami</span></span>
+      <span class="t-line t-output">IFS technical consultant & developer</span>
+      <span class="t-line t-output">12+ years in the IFS ecosystem</span>
+      <br>
+      <span class="t-line"><span class="t-prompt">inzamam</span><span class="t-path">@ifs-debugger</span> ~ % <span class="t-cmd">cat latest_post.txt</span></span>
+      <span class="t-line t-success">► Understanding IFS Projection APIs</span>
+      <span class="t-line t-output">&nbsp;&nbsp;A complete dev reference for IFS Cloud</span>
+      <span class="t-line t-output">&nbsp;&nbsp;14 min read · Mar 12 2025</span>
+      <br>
+      <span class="t-line"><span class="t-prompt">inzamam</span><span class="t-path">@ifs-debugger</span> ~ % <span class="t-cmd">grep -r "expertise" ./skills/</span></span>
+      <span class="t-line t-output">./skills/plsql.pkg:advanced</span>
+      <span class="t-line t-output">./skills/ifs_connect.pkg:advanced</span>
+      <span class="t-line t-output">./skills/ifs_cloud.pkg:advanced</span>
+      <span class="t-line t-output">./skills/oracle_db.pkg:advanced</span>
+      <span class="t-line t-output">./skills/projections.pkg:advanced</span>
+      <br>
+      <span class="t-line"><span class="t-prompt">inzamam</span><span class="t-path">@ifs-debugger</span> ~ % <span class="t-cmd">./start_blog.sh</span></span>
+      <span class="t-line t-success">✔ Articles compiled successfully</span>
+      <span class="t-line t-success">✔ Ko-fi donations: enabled</span>
+      <span class="t-line t-warn">⚠ Paywall: disabled (by design)</span>
+      <span class="t-line t-success">✔ Server running at theifsdebugger.com</span>
+      <br>
+      <span class="t-line"><span class="t-prompt">inzamam</span><span class="t-path">@ifs-debugger</span> ~ % <span class="t-cursor"></span></span>
+    </div>
+  </div>
+</div>
+
+<hr class="full-divider">
+
+<!-- BLOG POSTS -->
+<div class="featured-section" id="posts">
+  <div class="section-header">
+    <div class="section-tag">Latest Articles</div>
+    <div class="section-line"></div>
+    <div class="section-count">// 5 of 40+ articles shown</div>
+  </div>
+
+  <div class="blog-layout">
+
+    <!-- FEATURED -->
+    <a href="#" class="post-card featured reveal">
+      <div class="post-meta-row">
+        <span class="post-cat cat-deep">Deep Dive</span>
+        <span class="post-date">Mar 12, 2025</span>
+      </div>
+      <div class="post-title">Understanding IFS Projection APIs: A Complete Developer Reference for IFS Cloud</div>
+      <div class="post-excerpt">
+        IFS Cloud's Projection API marks a significant departure from the classic PL/SQL-first approach. This guide walks through the metadata layer, how Aurena consumes projections, and how to build your own custom projections from scratch — including the bits the official docs don't cover.
+      </div>
+      <div class="mini-code">
+        <span class="cm">-- Custom projection entity override</span><br>
+        <span class="kw">@Override</span><br>
+        <span class="fn">PROCEDURE</span> Get_Custom_Entity__ (<br>
+        &nbsp;&nbsp;entity_id_&nbsp; <span class="kw">IN</span>&nbsp; VARCHAR2,<br>
+        &nbsp;&nbsp;rec_&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="kw">OUT</span> <span class="str">Custom_Entity_Rec</span><br>
+        ) <span class="kw">IS</span><br>
+        &nbsp;&nbsp;<span class="cm">-- Bind via metadata layer...</span>
+      </div>
+      <div class="post-tags">
+        <span class="ptag">#IFS-Cloud</span>
+        <span class="ptag">#Projections</span>
+        <span class="ptag">#Aurena</span>
+        <span class="ptag">#FNDMDT</span>
+      </div>
+      <div class="post-footer">
+        <span class="post-readtime">// 14 min read</span>
+        <span class="post-read-link">read_article() →</span>
+      </div>
+    </a>
+
+    <!-- SMALL -->
+    <a href="#" class="post-card reveal">
+      <div class="post-meta-row">
+        <span class="post-cat cat-tutorial">Tutorial</span>
+        <span class="post-date">Feb 28, 2025</span>
+      </div>
+      <div class="post-title">Setting Up a Local IFS App10 Dev Environment in 2025</div>
+      <div class="post-excerpt">Step-by-step: Oracle 19c + IFS App10, the patches you actually need, and the pitfalls nobody documents.</div>
+      <div class="post-footer">
+        <span class="post-readtime">// 8 min read</span>
+        <span class="post-read-link">read_article() →</span>
+      </div>
+    </a>
+
+    <a href="#" class="post-card reveal">
+      <div class="post-meta-row">
+        <span class="post-cat cat-debug">Debug</span>
+        <span class="post-date">Feb 14, 2025</span>
+      </div>
+      <div class="post-title">5 PL/SQL Performance Traps in IFS That Will Kill Your Batch Jobs</div>
+      <div class="post-excerpt">Implicit cursors, missing indexes, and the anti-patterns quietly destroying your IFS performance.</div>
+      <div class="post-footer">
+        <span class="post-readtime">// 6 min read</span>
+        <span class="post-read-link">read_article() →</span>
+      </div>
+    </a>
+
+    <a href="#" class="post-card reveal">
+      <div class="post-meta-row">
+        <span class="post-cat cat-deep">Deep Dive</span>
+        <span class="post-date">Jan 30, 2025</span>
+      </div>
+      <div class="post-title">IFS Connect Routing Rules: The Underdocumented Bits</div>
+      <div class="post-excerpt">How IFS Connect's routing engine works under the hood, with real examples for inbound message routing.</div>
+      <div class="post-footer">
+        <span class="post-readtime">// 10 min read</span>
+        <span class="post-read-link">read_article() →</span>
+      </div>
+    </a>
+
+    <a href="#" class="post-card reveal">
+      <div class="post-meta-row">
+        <span class="post-cat cat-tips">Tips</span>
+        <span class="post-date">Jan 18, 2025</span>
+      </div>
+      <div class="post-title">Custom Quick Reports in IFS: From Schema to Output</div>
+      <div class="post-excerpt">Parameterised Quick Reports that your end users will actually want to use — a practical walkthrough.</div>
+      <div class="post-footer">
+        <span class="post-readtime">// 7 min read</span>
+        <span class="post-read-link">read_article() →</span>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<hr class="full-divider">
+
+<!-- TOPICS -->
+<div class="topics-section" id="topics">
+  <div class="section-header">
+    <div class="section-tag">Browse Topics</div>
+    <div class="section-line"></div>
+    <div class="section-count">// 8 topic areas</div>
+  </div>
+  <div class="topics-grid">
+    <a href="#" class="topic-item reveal">
+      <div class="topic-icon">🔧</div>
+      <div class="topic-name">PL/SQL & Database</div>
+      <div class="topic-count">// 14 articles</div>
+      <div class="topic-bar"><div class="topic-bar-fill" style="width:90%"></div></div>
+    </a>
+    <a href="#" class="topic-item reveal">
+      <div class="topic-icon">☁️</div>
+      <div class="topic-name">IFS Cloud & Aurena</div>
+      <div class="topic-count">// 10 articles</div>
+      <div class="topic-bar"><div class="topic-bar-fill" style="width:65%"></div></div>
+    </a>
+    <a href="#" class="topic-item reveal">
+      <div class="topic-icon">🔗</div>
+      <div class="topic-name">IFS Connect & APIs</div>
+      <div class="topic-count">// 8 articles</div>
+      <div class="topic-bar"><div class="topic-bar-fill" style="width:52%"></div></div>
+    </a>
+    <a href="#" class="topic-item reveal">
+      <div class="topic-icon">⚙️</div>
+      <div class="topic-name">Customisation</div>
+      <div class="topic-count">// 12 articles</div>
+      <div class="topic-bar"><div class="topic-bar-fill" style="width:78%"></div></div>
+    </a>
+    <a href="#" class="topic-item reveal">
+      <div class="topic-icon">📊</div>
+      <div class="topic-name">Reporting & BI</div>
+      <div class="topic-count">// 6 articles</div>
+      <div class="topic-bar"><div class="topic-bar-fill" style="width:40%"></div></div>
+    </a>
+    <a href="#" class="topic-item reveal">
+      <div class="topic-icon">🚀</div>
+      <div class="topic-name">Performance Tuning</div>
+      <div class="topic-count">// 9 articles</div>
+      <div class="topic-bar"><div class="topic-bar-fill" style="width:58%"></div></div>
+    </a>
+    <a href="#" class="topic-item reveal">
+      <div class="topic-icon">🔄</div>
+      <div class="topic-name">Upgrades & Migration</div>
+      <div class="topic-count">// 5 articles</div>
+      <div class="topic-bar"><div class="topic-bar-fill" style="width:33%"></div></div>
+    </a>
+    <a href="#" class="topic-item reveal">
+      <div class="topic-icon">🐛</div>
+      <div class="topic-name">Debugging & Fixes</div>
+      <div class="topic-count">// 11 articles</div>
+      <div class="topic-bar"><div class="topic-bar-fill" style="width:72%"></div></div>
+    </a>
+  </div>
+</div>
+
+<hr class="full-divider">
+
+<!-- ABOUT -->
+<div class="about-strip" id="about">
+  <div class="about-inner">
+    <div class="about-avatar">IZ</div>
+    <div class="about-text">
+      <div class="about-name">Inzamam</div>
+      <p class="about-bio">
+        IFS technical specialist with <strong>12+ years</strong> in the trenches — customisations, integrations, performance disasters, and everything in between. I write here because good IFS technical documentation is rare, and the stuff that actually helps developers <strong>doesn't exist anywhere else</strong>. No paywall. No fluff. Just stack traces and solutions.
+      </p>
+    </div>
+    <div class="about-actions">
+      <a href="https://ko-fi.com" class="btn-green">☕ Support on Ko-fi</a>
+      <a href="https://linkedin.com" class="btn-ghost-green">LinkedIn →</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">// THE IFS DEBUGGER</div>
+      <div class="footer-tagline">Following the stack trace so you don't have to · by Inzamam</div>
+    </div>
+    <ul class="footer-links">
+      <li><a href="#">Articles</a></li>
+      <li><a href="#">Topics</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Ko-fi</a></li>
+    </ul>
+    <div class="footer-copy">© 2025 Inzamam · theifsdebugger.com</div>
+  </div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

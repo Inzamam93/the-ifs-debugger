@@ -1,0 +1,17 @@
+# robots.txt — The IFS Debugger
+# ================================
+# This file tells search engine crawlers which pages to index.
+# "Allow all" is the right setting for a public blog.
+# Place this file in the ROOT of your GitHub repository.
+
+# Allow all crawlers to index everything
+User-agent: *
+Allow: /
+
+# Block crawlers from any draft or private folders
+# (uncomment and edit if you add these later)
+# Disallow: /drafts/
+# Disallow: /private/
+
+# Point crawlers to your sitemap
+Sitemap: https://theifsdebugger.com/sitemap.xml

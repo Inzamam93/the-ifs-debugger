@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SITEMAP — The IFS Debugger
+  ===========================
+  This file tells Google about all pages on your site.
+  Every time you add a new blog post page, add a new <url> block below.
+  Then resubmit this sitemap in Google Search Console.
+
+  How to submit to Google:
+  1. Go to search.google.com/search-console
+  2. Add your property (theifsdebugger.com)
+  3. Go to Sitemaps → enter "sitemap.xml" → Submit
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+  <!-- HOMEPAGE -->
+  <url>
+    <loc>https://theifsdebugger.com/</loc>
+    <lastmod>2025-01-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- ARTICLES INDEX -->
+  <url>
+    <loc>https://theifsdebugger.com/articles/</loc>
+    <lastmod>2025-01-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- TOPICS PAGE -->
+  <url>
+    <loc>https://theifsdebugger.com/topics/</loc>
+    <lastmod>2025-01-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- ABOUT PAGE -->
+  <url>
+    <loc>https://theifsdebugger.com/about/</loc>
+    <lastmod>2025-01-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- ============================================================
+       BLOG POSTS
+       Add a new <url> block for each article you publish.
+       Update lastmod to the publish date of each post.
+       Example format below — replace with your real slugs.
+       ============================================================ -->
+
+  <url>
+    <loc>https://theifsdebugger.com/articles/ifs-projection-apis-complete-reference/</loc>
+    <lastmod>2025-03-12</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://theifsdebugger.com/articles/ifs-app10-dev-environment-setup-2025/</loc>
+    <lastmod>2025-02-28</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://theifsdebugger.com/articles/plsql-performance-traps-ifs-batch-jobs/</loc>
+    <lastmod>2025-02-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://theifsdebugger.com/articles/ifs-connect-routing-rules-underdocumented/</loc>
+    <lastmod>2025-01-30</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://theifsdebugger.com/articles/custom-quick-reports-ifs-schema-to-output/</loc>
+    <lastmod>2025-01-18</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+</urlset>
