@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The IFS Debugger — by Inzamam</title>
-<meta name="description" content="Deep technical articles on IFS Applications — PL/SQL, IFS Cloud, Projections, IFS Connect, performance tuning, and customisation. Written by a practitioner. No paywall. No fluff.">
-<meta name="author" content="Inzamam">
-<meta property="og:title" content="The IFS Debugger — Deep IFS ERP Technical Writing">
-<meta property="og:description" content="Deep technical articles on IFS Applications by Inzamam. No paywall. No fluff. Just stack traces.">
+<title>The IFS Debugger — Technical IFS Blog by Inzamam</title>
+<meta name="description" content="Deep technical articles on IFS Applications — PL/SQL, IFS Cloud, Aurena, integrations, and performance tuning. Written by a practitioner with 6+ years in the IFS ecosystem.">
+<meta name="author" content="Inzamam Ghazzali">
+<meta property="og:title" content="The IFS Debugger — Technical IFS Blog">
+<meta property="og:description" content="Deep technical articles on IFS Applications by Inzamam Ghazzali. No paywall. No fluff.">
 <meta property="og:image" content="https://inzamam93.github.io/the-ifs-debugger/og-image.png">
 <meta property="og:url" content="https://inzamam93.github.io/the-ifs-debugger">
 <meta property="og:type" content="website">
@@ -24,785 +24,323 @@
 </script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&family=Source+Code+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
 :root {
-  --black:      #000000;
-  --bg:         #030a03;
-  --bg2:        #060e06;
-  --bg3:        #0a150a;
-  --green:      #33ff33;
-  --green-dim:  #1a8c1a;
-  --green-dark: #0d3d0d;
-  --green-glow: rgba(51,255,51,0.07);
-  --green-mid:  #26c226;
-  --amber:      #ffcc00;
-  --red:        #ff3333;
-  --cyan:       #33ffee;
-  --border:     #0d3d0d;
-  --border2:    #145214;
-  --text:       #b3ffb3;
-  --text-muted: #4d994d;
-  --text-dim:   #1f661f;
-  --font-mono:  'Share Tech Mono', monospace;
-  --font-vt:    'VT323', monospace;
-  --font-code:  'Source Code Pro', monospace;
-  --glow-sm:    0 0 6px rgba(51,255,51,0.4);
-  --glow-md:    0 0 12px rgba(51,255,51,0.3), 0 0 24px rgba(51,255,51,0.1);
-  --glow-lg:    0 0 20px rgba(51,255,51,0.4), 0 0 40px rgba(51,255,51,0.15);
-  --scanline-size: 3px;
+  --bg: #f0f0f0; /* light grey background */
+  --surface: #ffffff; /* keep cards white for contrast */
+  --border: #d1d5da; /* slightly darker border for subtle separation */
+  --text: #24292e;
+  --text-secondary: #586069;
+  --text-muted: #6a737d;
+  --accent: #0366d6;
+  --accent-hover: #0256b8;
+  --green: #22863a;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
 }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 
 body {
-  background: var(--bg);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
   color: var(--text);
-  font-family: var(--font-mono);
-  font-size: 14px;
-  line-height: 1.8;
-  overflow-x: hidden;
-  min-height: 100vh;
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
 }
 
-/* ── CRT SCANLINES ── */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent 0px,
-    transparent calc(var(--scanline-size) - 1px),
-    rgba(0,0,0,0.25) calc(var(--scanline-size) - 1px),
-    rgba(0,0,0,0.25) var(--scanline-size)
-  );
-  pointer-events: none;
-  z-index: 9998;
-}
-
-/* ── PHOSPHOR VIGNETTE ── */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(ellipse at center,
-    transparent 60%,
-    rgba(0,0,0,0.6) 100%
-  );
-  pointer-events: none;
-  z-index: 9997;
-}
-
-/* ── SUBTLE FLICKER ── */
-@keyframes flicker {
-  0%,100% { opacity: 1; }
-  92%      { opacity: 1; }
-  93%      { opacity: 0.97; }
-  94%      { opacity: 1; }
-  96%      { opacity: 0.98; }
-  97%      { opacity: 1; }
-}
-body { animation: flicker 8s infinite; }
-
-/* ── BLINK ── */
-@keyframes blink {
-  0%,100% { opacity: 1; }
-  50%     { opacity: 0; }
-}
-
-/* ── TYPING CURSOR ── */
-.cursor {
-  display: inline-block;
-  width: 9px; height: 1.1em;
-  background: var(--green);
-  vertical-align: text-bottom;
-  animation: blink 1s step-end infinite;
-  box-shadow: var(--glow-sm);
-}
-
-/* ══════════════════════════════════════
-   TOPBAR
-══════════════════════════════════════ */
-.topbar {
-  background: var(--black);
-  border-bottom: 1px solid var(--border);
-  padding: 0.3rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.68rem;
-  color: var(--text-dim);
-  letter-spacing: 0.06em;
-  font-family: var(--font-code);
-}
-.topbar .ok  { color: var(--green); text-shadow: var(--glow-sm); }
-.topbar .err { color: var(--red); }
-.topbar .warn{ color: var(--amber); }
-.topbar-left { display: flex; gap: 2rem; }
-
-/* ══════════════════════════════════════
-   NAV
-══════════════════════════════════════ */
+/* ═══ NAV ═══ */
 nav {
   position: sticky;
   top: 0;
-  z-index: 900;
-  background: rgba(3,10,3,0.97);
-  backdrop-filter: blur(4px);
-  border-bottom: 1px solid var(--border2);
-  box-shadow: 0 1px 0 var(--green-dark), var(--glow-sm);
+  z-index: 100;
+  background: #e8e8e8; /* light grey */
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 0;
 }
-.nav-inner {
-  max-width: 1200px;
+.nav-container {
+  max-width: 1000px;
   margin: 0 auto;
   padding: 0 2rem;
   display: flex;
-  align-items: stretch;
-  gap: 0;
-  height: 52px;
-}
-.logo-wrap {
-  display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding-right: 2rem;
-  border-right: 1px solid var(--border);
+  justify-content: space-between;
+}
+.logo {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
   text-decoration: none;
+  letter-spacing: -0.02em;
 }
-.logo-prompt {
-  font-family: var(--font-vt);
-  font-size: 1.5rem;
-  color: var(--green-mid);
-  letter-spacing: 0.02em;
-}
-.logo-text {
-  font-family: var(--font-vt);
-  font-size: 1.5rem;
-  color: var(--green);
-  letter-spacing: 0.04em;
-  text-shadow: var(--glow-md);
-}
-.logo-tagline {
-  font-size: 0.58rem;
-  color: var(--text-dim);
-  letter-spacing: 0.1em;
-  font-family: var(--font-code);
-  display: none;
-}
+.logo span { color: var(--accent); }
 .nav-links {
   display: flex;
+  gap: 2rem;
   list-style: none;
-  align-items: stretch;
-  margin-left: 0.5rem;
+  align-items: center;
 }
 .nav-links a {
-  display: flex;
-  align-items: center;
-  padding: 0 1.25rem;
-  font-family: var(--font-code);
-  font-size: 0.72rem;
+  font-size: 0.9rem;
   font-weight: 500;
-  color: var(--text-muted);
+  color: var(--text-secondary);
   text-decoration: none;
-  letter-spacing: 0.08em;
-  border-right: 1px solid var(--border);
-  transition: all 0.15s;
-  gap: 0.35rem;
+  transition: color 0.2s;
 }
-.nav-links a::before { content: './'; color: var(--text-dim); font-size: 0.65rem; }
-.nav-links a:hover   { color: var(--green); background: var(--green-glow); text-shadow: var(--glow-sm); }
-.nav-links a.active  { color: var(--green); background: var(--green-glow); text-shadow: var(--glow-sm); border-bottom: 2px solid var(--green); }
-.nav-right {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  padding-left: 1.5rem;
-  gap: 1rem;
-}
+.nav-links a:hover { color: var(--accent); }
 .btn-kofi {
-  font-family: var(--font-code);
-  font-size: 0.65rem;
+  font-size: 0.85rem;
   font-weight: 600;
-  letter-spacing: 0.1em;
-  color: var(--green);
-  border: 1px solid var(--green-dim);
-  padding: 0.4rem 1rem;
+  background: var(--accent);
+  color: white;
+  padding: 0.5rem 1.25rem;
+  border-radius: 6px;
   text-decoration: none;
-  transition: all 0.2s;
-  text-shadow: var(--glow-sm);
+  transition: background 0.2s;
 }
-.btn-kofi:hover {
-  background: var(--green);
-  color: var(--black);
-  box-shadow: var(--glow-lg);
-  text-shadow: none;
-}
+.btn-kofi:hover { background: var(--accent-hover); }
 
-/* ══════════════════════════════════════
-   HERO
-══════════════════════════════════════ */
+/* ═══ HERO ═══ */
 .hero {
-  max-width: 1200px;
+  max-width: 800px;
   margin: 0 auto;
-  padding: 3.5rem 2rem 3rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem;
-  align-items: start;
-  border-bottom: 1px solid var(--border);
-}
-
-/* Left — system info panel */
-.hero-left {}
-
-.sys-header {
-  font-family: var(--font-vt);
-  font-size: 2.8rem;
-  color: var(--green);
-  text-shadow: var(--glow-lg);
-  line-height: 1;
-  margin-bottom: 0.25rem;
-  letter-spacing: 0.03em;
-}
-.sys-sub {
-  font-family: var(--font-code);
-  font-size: 0.72rem;
-  color: var(--text-muted);
-  letter-spacing: 0.1em;
-  margin-bottom: 2rem;
-}
-.sys-sub span { color: var(--green-mid); }
-
-.info-block {
-  background: var(--bg2);
-  border: 1px solid var(--border2);
-  padding: 1.25rem 1.5rem;
-  margin-bottom: 1.5rem;
-  position: relative;
-}
-.info-block::before {
-  content: attr(data-label);
-  position: absolute;
-  top: -0.55rem;
-  left: 1rem;
-  background: var(--bg2);
-  padding: 0 0.5rem;
-  font-family: var(--font-code);
-  font-size: 0.6rem;
-  color: var(--green-mid);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-.info-row {
-  display: flex;
-  gap: 1rem;
-  font-family: var(--font-code);
-  font-size: 0.75rem;
-  line-height: 2;
-  color: var(--text-muted);
-}
-.info-key {
-  color: var(--text-dim);
-  min-width: 120px;
-  flex-shrink: 0;
-}
-.info-key::after { content: ':'; }
-.info-val { color: var(--text); }
-.info-val.green { color: var(--green); text-shadow: var(--glow-sm); }
-.info-val.amber { color: var(--amber); }
-.info-val.dim   { color: var(--text-muted); }
-
-.hero-stats {
-  display: flex;
-  gap: 0;
-  border: 1px solid var(--border2);
-  margin-top: 1.5rem;
-}
-.hstat {
-  flex: 1;
-  padding: 1rem;
-  border-right: 1px solid var(--border);
+  padding: 4rem 2rem 3rem;
   text-align: center;
 }
-.hstat:last-child { border-right: none; }
-.hstat-num {
-  font-family: var(--font-vt);
-  font-size: 2rem;
-  color: var(--green);
-  text-shadow: var(--glow-md);
-  line-height: 1;
-  display: block;
+.hero-title {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  margin-bottom: 1rem;
 }
-.hstat-label {
-  font-family: var(--font-code);
-  font-size: 0.58rem;
-  color: var(--text-dim);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin-top: 0.25rem;
-  display: block;
-}
-
-/* Right — terminal window */
-.terminal-win {
-  background: var(--black);
-  border: 1px solid var(--border2);
-  box-shadow: var(--glow-sm), inset 0 0 40px rgba(0,0,0,0.5);
-}
-.term-titlebar {
-  background: var(--bg3);
-  border-bottom: 1px solid var(--border);
-  padding: 0.4rem 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-.term-dot { width: 10px; height: 10px; border-radius: 50%; }
-.term-dot.r { background: #ff5f57; }
-.term-dot.y { background: #febc2e; }
-.term-dot.g { background: #28c840; }
-.term-title {
-  font-family: var(--font-code);
-  font-size: 0.62rem;
-  color: var(--text-dim);
-  margin-left: 0.5rem;
-  letter-spacing: 0.05em;
-}
-.term-body {
-  padding: 1.25rem 1.5rem;
-  font-family: var(--font-code);
-  font-size: 0.75rem;
-  line-height: 2;
-}
-.t-line   { display: block; }
-.t-prompt { color: var(--green-mid); }
-.t-path   { color: var(--cyan); }
-.t-cmd    { color: var(--text); }
-.t-out    { color: var(--text-muted); padding-left: 1rem; }
-.t-ok     { color: var(--green); }
-.t-warn   { color: var(--amber); }
-.t-err    { color: var(--red); }
-.t-comment{ color: var(--text-dim); font-style: italic; }
-.t-gap    { display: block; height: 0.5rem; }
-
-/* ══════════════════════════════════════
-   SECTION HEADER
-══════════════════════════════════════ */
-.sec-header {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-.sec-prompt {
-  font-family: var(--font-vt);
+.hero-title .accent { color: var(--accent); }
+.hero-subtitle {
   font-size: 1.1rem;
-  color: var(--green-mid);
-  white-space: nowrap;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
 }
-.sec-title {
-  font-family: var(--font-vt);
-  font-size: 1.4rem;
-  color: var(--green);
-  text-shadow: var(--glow-sm);
-  letter-spacing: 0.04em;
-  white-space: nowrap;
+.hero-tagline {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  font-style: italic;
 }
-.sec-line {
-  flex: 1;
-  height: 1px;
-  background: var(--border);
-  position: relative;
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
 }
-.sec-line::after {
-  content: '';
-  position: absolute;
-  left: 0; top: 0;
-  width: 30%;
-  height: 100%;
-  background: var(--green-dim);
-  opacity: 0.4;
-}
-.sec-count {
-  font-family: var(--font-code);
-  font-size: 0.6rem;
-  color: var(--text-dim);
-  white-space: nowrap;
-}
-
-/* ══════════════════════════════════════
-   ARTICLES SECTION
-══════════════════════════════════════ */
-.articles-section {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 3rem 2rem;
-  border-bottom: 1px solid var(--border);
-}
-
-/* File listing header */
-.file-listing-header {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 80px;
-  gap: 1rem;
-  padding: 0.4rem 1rem;
-  background: var(--bg3);
-  border: 1px solid var(--border);
-  border-bottom: none;
-  font-family: var(--font-code);
-  font-size: 0.62rem;
-  color: var(--text-dim);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.post-list {
-  border: 1px solid var(--border);
+.stat {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+.stat-num {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-/* Featured post — full width card */
-.post-featured {
-  background: var(--bg2);
-  border-bottom: 1px solid var(--border2);
+/* ═══ ARTICLES SECTION ═══ */
+.articles-section {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.view-all {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.view-all:hover { text-decoration: underline; }
+
+.articles-grid {
+  display: grid;
+  gap: 2rem;
+}
+
+.article-card {
+  background: #e8e8e8; /* light grey matching theme */
+  border: 1px solid var(--border);
+  border-radius: 8px;
   padding: 2rem;
   text-decoration: none;
   color: inherit;
+  transition: all 0.2s;
   display: block;
-  transition: background 0.2s;
-  position: relative;
 }
-.post-featured::before {
-  content: '';
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 3px;
-  background: var(--green);
-  box-shadow: var(--glow-md);
+.article-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transform: translateY(-2px);
 }
-.post-featured:hover { background: var(--bg3); }
+.article-card.featured {
+  background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%);
+  border-color: var(--accent);
+}
 
-.feat-top {
+.article-meta {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
   margin-bottom: 0.75rem;
-}
-.post-flag {
-  font-family: var(--font-code);
-  font-size: 0.58rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: 0.15rem 0.5rem;
-  border: 1px solid;
-}
-.flag-featured { color: var(--green); border-color: var(--green-dark); background: rgba(51,255,51,0.07); text-shadow: var(--glow-sm); }
-.flag-deep     { color: var(--cyan);  border-color: rgba(51,255,238,0.2); background: rgba(51,255,238,0.05); }
-.flag-tutorial { color: var(--green); border-color: var(--green-dark); background: rgba(51,255,51,0.05); }
-.flag-tips     { color: var(--amber); border-color: rgba(255,204,0,0.2); background: rgba(255,204,0,0.05); }
-.flag-debug    { color: var(--red);   border-color: rgba(255,51,51,0.2); background: rgba(255,51,51,0.05); }
-
-.post-date-badge {
-  font-family: var(--font-code);
-  font-size: 0.6rem;
-  color: var(--text-dim);
-  letter-spacing: 0.06em;
-}
-.feat-title {
-  font-family: var(--font-vt);
-  font-size: 1.6rem;
-  color: var(--text);
-  line-height: 1.2;
-  letter-spacing: 0.02em;
-  margin-bottom: 0.75rem;
-}
-.feat-excerpt {
-  font-family: var(--font-code);
   font-size: 0.8rem;
   color: var(--text-muted);
-  line-height: 1.85;
-  margin-bottom: 1rem;
-  max-width: 700px;
 }
-
-/* Code snippet inside featured */
-.code-snip {
-  background: var(--black);
-  border: 1px solid var(--border2);
-  border-left: 3px solid var(--green-dim);
-  padding: 0.85rem 1.25rem;
-  font-family: var(--font-code);
+.article-tag {
+  background: var(--accent);
+  color: white;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
   font-size: 0.7rem;
-  line-height: 1.9;
-  color: var(--text-muted);
-  margin-bottom: 1rem;
-  overflow: hidden;
-}
-.code-snip .kw  { color: var(--green); text-shadow: var(--glow-sm); }
-.code-snip .cm  { color: var(--text-dim); font-style: italic; }
-.code-snip .str { color: var(--amber); }
-.code-snip .fn  { color: var(--cyan); }
-.code-snip .num { color: #cc99ff; }
-
-.feat-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: 0.75rem;
-  border-top: 1px solid var(--border);
-}
-.feat-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-.ftag {
-  font-family: var(--font-code);
-  font-size: 0.58rem;
-  color: var(--text-dim);
+  font-weight: 600;
+  text-transform: uppercase;
   letter-spacing: 0.05em;
 }
-.ftag::before { content: '#'; color: var(--green-dark); }
-.read-cmd {
-  font-family: var(--font-code);
-  font-size: 0.68rem;
-  color: var(--green);
-  text-shadow: var(--glow-sm);
-  letter-spacing: 0.08em;
-  transition: letter-spacing 0.2s;
-}
-.post-featured:hover .read-cmd { letter-spacing: 0.15em; }
+.article-tag.featured { background: var(--green); }
+.article-tag.tutorial { background: #6f42c1; }
+.article-tag.tips { background: #fd7e14; }
 
-/* File-row posts */
-.post-row {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 80px;
-  gap: 1rem;
-  align-items: center;
-  padding: 0.85rem 1rem;
-  border-bottom: 1px solid var(--border);
-  text-decoration: none;
-  color: inherit;
-  transition: background 0.15s;
-}
-.post-row:last-child { border-bottom: none; }
-.post-row:hover { background: var(--green-glow); }
-.post-row:hover .row-title { color: var(--green); text-shadow: var(--glow-sm); }
-
-.row-name {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-}
-.row-icon {
-  font-family: var(--font-code);
-  font-size: 0.7rem;
-  color: var(--green-dim);
-  flex-shrink: 0;
-}
-.row-title {
-  font-family: var(--font-code);
-  font-size: 0.78rem;
+.article-title-card {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.3;
   color: var(--text);
-  line-height: 1.4;
-  transition: color 0.15s;
+  margin-bottom: 0.75rem;
 }
-.row-cat {
-  font-family: var(--font-code);
-  font-size: 0.62rem;
-  color: var(--text-muted);
-  letter-spacing: 0.06em;
-}
-.row-date {
-  font-family: var(--font-code);
-  font-size: 0.62rem;
-  color: var(--text-dim);
-  letter-spacing: 0.05em;
-}
-.row-size {
-  font-family: var(--font-code);
-  font-size: 0.62rem;
-  color: var(--text-dim);
-  text-align: right;
+.article-card.featured .article-title-card {
+  font-size: 1.8rem;
 }
 
-/* ══════════════════════════════════════
-   ABOUT STRIP
-══════════════════════════════════════ */
+.article-excerpt {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+
+.article-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+.read-time {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+.read-more {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* ═══ ABOUT SECTION ═══ */
 .about-section {
-  background: var(--bg2);
+  background: #e8e8e8; /* light grey matching cards */
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
+  margin-top: 3rem;
 }
 .about-inner {
-  max-width: 1200px;
+  max-width: 800px;
   margin: 0 auto;
-  padding: 2.5rem 2rem;
+  padding: 3rem 2rem;
   display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 2.5rem;
+  grid-template-columns: auto 1fr;
+  gap: 2rem;
   align-items: center;
 }
 .about-avatar {
-  width: 80px; height: 80px;
-  border: 1px solid var(--green-dim);
-  background: var(--black);
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--green));
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-vt);
   font-size: 2rem;
-  color: var(--green);
-  text-shadow: var(--glow-lg);
+  font-weight: 700;
+  color: white;
   flex-shrink: 0;
-  box-shadow: var(--glow-sm), inset 0 0 20px rgba(51,255,51,0.05);
-  position: relative;
-}
-.about-avatar::after {
-  content: '';
-  position: absolute;
-  inset: 3px;
-  border: 1px solid var(--green-dark);
 }
 .about-name {
-  font-family: var(--font-code);
-  font-size: 0.65rem;
-  color: var(--green-mid);
-  letter-spacing: 0.12em;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
   margin-bottom: 0.5rem;
 }
-.about-name::before { content: 'root@ifs-debugger:~$ whoami → '; color: var(--text-dim); }
 .about-bio {
-  font-family: var(--font-code);
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  line-height: 1.85;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 1rem;
 }
-.about-bio strong { color: var(--text); font-weight: 600; }
-.about-actions {
+.about-links {
   display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  align-items: flex-end;
+  gap: 1.5rem;
 }
-.btn-primary-g {
-  font-family: var(--font-code);
-  font-size: 0.65rem;
+.about-links a {
+  font-size: 0.85rem;
   font-weight: 600;
-  letter-spacing: 0.1em;
-  background: var(--green);
-  color: var(--black);
-  padding: 0.55rem 1.25rem;
+  color: var(--accent);
   text-decoration: none;
-  transition: all 0.2s;
-  white-space: nowrap;
 }
-.btn-primary-g:hover { background: #66ff66; box-shadow: var(--glow-lg); }
-.btn-outline-g {
-  font-family: var(--font-code);
-  font-size: 0.65rem;
-  letter-spacing: 0.1em;
-  color: var(--text-muted);
-  border: 1px solid var(--border2);
-  padding: 0.55rem 1.25rem;
-  text-decoration: none;
-  transition: all 0.2s;
-  white-space: nowrap;
-}
-.btn-outline-g:hover { color: var(--green); border-color: var(--green-dim); text-shadow: var(--glow-sm); }
+.about-links a:hover { text-decoration: underline; }
 
-/* ══════════════════════════════════════
-   TOPICS
-══════════════════════════════════════ */
-.topics-section {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 3rem 2rem;
-  border-bottom: 1px solid var(--border);
-}
-.topics-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
-}
-.topic-card {
-  background: var(--bg);
-  padding: 1.25rem 1.5rem;
-  text-decoration: none;
-  color: inherit;
-  transition: background 0.15s;
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-.topic-card:hover { background: var(--bg2); }
-.topic-card:hover .topic-name { color: var(--green); text-shadow: var(--glow-sm); }
-.topic-cmd {
-  font-family: var(--font-code);
-  font-size: 0.6rem;
-  color: var(--text-dim);
-  letter-spacing: 0.06em;
-}
-.topic-cmd::before { content: 'cd ./'; color: var(--green-dark); }
-.topic-name {
-  font-family: var(--font-vt);
-  font-size: 1.1rem;
-  color: var(--text);
-  letter-spacing: 0.03em;
-  transition: color 0.15s;
-}
-.topic-count {
-  font-family: var(--font-code);
-  font-size: 0.6rem;
-  color: var(--text-dim);
-  letter-spacing: 0.06em;
-}
-.topic-bar {
-  height: 1px;
-  background: var(--border);
-  margin-top: 0.5rem;
-  position: relative;
-}
-.topic-fill {
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  background: var(--green-dim);
-  transition: width 0.4s ease, box-shadow 0.3s;
-}
-.topic-card:hover .topic-fill { box-shadow: var(--glow-sm); }
-
-/* ══════════════════════════════════════
-   FOOTER
-══════════════════════════════════════ */
+/* ═══ FOOTER ═══ */
 footer {
-  background: var(--black);
-  border-top: 1px solid var(--border2);
-  box-shadow: 0 -1px 0 var(--green-dark);
+  border-top: 1px solid var(--border);
+  padding: 2rem;
+  background: #e8e8e8; /* light grey */
 }
 .footer-inner {
-  max-width: 1200px;
+  max-width: 1000px;
   margin: 0 auto;
-  padding: 1.5rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   gap: 1rem;
 }
-.footer-logo {
-  font-family: var(--font-vt);
-  font-size: 1.2rem;
-  color: var(--green);
-  text-shadow: var(--glow-md);
-}
-.footer-tagline {
-  font-family: var(--font-code);
-  font-size: 0.6rem;
-  color: var(--text-dim);
-  letter-spacing: 0.06em;
-  margin-top: 0.15rem;
+.footer-text {
+  font-size: 0.85rem;
+  color: var(--text-muted);
 }
 .footer-links {
   display: flex;
@@ -810,304 +348,144 @@ footer {
   list-style: none;
 }
 .footer-links a {
-  font-family: var(--font-code);
-  font-size: 0.62rem;
-  color: var(--text-dim);
+  font-size: 0.85rem;
+  color: var(--text-muted);
   text-decoration: none;
-  letter-spacing: 0.08em;
-  transition: color 0.15s;
 }
-.footer-links a:hover { color: var(--green); text-shadow: var(--glow-sm); }
-.footer-copy {
-  font-family: var(--font-code);
-  font-size: 0.58rem;
-  color: var(--text-dim);
-  letter-spacing: 0.05em;
-}
+.footer-links a:hover { color: var(--accent); text-decoration: underline; }
 
-/* ══════════════════════════════════════
-   SCROLL REVEAL
-══════════════════════════════════════ */
-.reveal {
-  opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-.reveal.visible { opacity: 1; transform: none; }
-
-/* ══════════════════════════════════════
-   RESPONSIVE
-══════════════════════════════════════ */
-@media (max-width: 900px) {
-  .hero { grid-template-columns: 1fr; }
-  .terminal-win { display: none; }
-  .file-listing-header { display: none; }
-  .post-row { grid-template-columns: 1fr auto; }
-  .row-cat, .row-date, .row-size { display: none; }
-  .about-inner { grid-template-columns: 1fr; gap: 1.5rem; }
-  .about-actions { flex-direction: row; align-items: flex-start; }
-  .topics-grid { grid-template-columns: repeat(2,1fr); }
-  .topbar { display: none; }
-  .nav-links a::before { display: none; }
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .hero-stats { flex-wrap: wrap; gap: 1.5rem; }
+  .about-inner { grid-template-columns: 1fr; text-align: center; }
+  .about-links { justify-content: center; }
 }
 </style>
 </head>
 <body>
 
-<!-- TOPBAR -->
-<div class="topbar">
-  <div class="topbar-left">
-    <span><span class="ok">[OK]</span> kernel: ifs-debugger v1.0 loaded</span>
-    <span><span class="warn">[INFO]</span> IFS Cloud 24R2 — new article pending</span>
-    <span><span class="ok">[OK]</span> ko-fi: accepting donations</span>
-  </div>
-  <span>inzamam93.github.io/the-ifs-debugger — EST. 2025</span>
-</div>
-
 <!-- NAV -->
 <nav>
-  <div class="nav-inner">
-    <a href="#" class="logo-wrap">
-      <span class="logo-prompt">root@ifs:~$</span>
-      <span class="logo-text">THE IFS DEBUGGER</span>
-    </a>
+  <div class="nav-container">
+    <a href="#" class="logo">The IFS <span>Debugger</span></a>
     <ul class="nav-links">
-      <li><a href="#" class="active">home</a></li>
-      <li><a href="#articles">articles</a></li>
-      <li><a href="#topics">topics</a></li>
-      <li><a href="#about">about</a></li>
+      <li><a href="#articles">Articles</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="https://github.com/Inzamam93">GitHub</a></li>
     </ul>
-    <div class="nav-right">
-      <a href="https://ko-fi.com/inzamam" class="btn-kofi">☕ buy me a coffee</a>
-    </div>
+    <!-- Buy me coffee button placeholder
+    <a href="https://ko-fi.com/inzamam" class="btn-kofi">☕ Buy Me a Coffee</a>
+    -->
   </div>
 </nav>
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-left">
-    <div class="sys-header">// THE IFS DEBUGGER<span class="cursor"></span></div>
-    <div class="sys-sub">by <span>Inzamam Ghazzali</span> · Following the stack trace so you don't have to</div>
-
-    <div class="info-block" data-label="system.info">
-      <div class="info-row"><span class="info-key">hostname</span><span class="info-val green">theifsdebugger.com</span></div>
-      <div class="info-row"><span class="info-key">operator</span><span class="info-val">Inzamam Ghazzali</span></div>
-      <div class="info-row"><span class="info-key">speciality</span><span class="info-val">IFS ERP Technical Development</span></div>
-      <div class="info-row"><span class="info-key">experience</span><span class="info-val green">6+ years in the IFS ecosystem</span></div>
-      <div class="info-row"><span class="info-key">paywall</span><span class="info-val amber">DISABLED — by design</span></div>
-      <div class="info-row"><span class="info-key">status</span><span class="info-val green">ACTIVE — articles dropping regularly</span></div>
+  <h1 class="hero-title">The IFS <span class="accent">Debugger</span></h1>
+  <p class="hero-subtitle">Technical IFS blog by Inzamam Ghazzali</p>
+  <p class="hero-tagline">Deep dives into IFS Applications, Aurena, PL/SQL, integrations and other technical topics..</p>
+  <!-- PLACEHOLDER STATS
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">6+</div>
+      <div class="stat-label">Years IFS</div>
     </div>
-
-    <div class="info-block" data-label="core.skills">
-      <div class="info-row"><span class="info-key">expert</span><span class="info-val dim">IFS Customisations · PL/SQL · Oracle DB</span></div>
-      <div class="info-row"><span class="info-key">expert</span><span class="info-val dim">IFS Aurena · IFS Buildplace</span></div>
-      <div class="info-row"><span class="info-key">advanced</span><span class="info-val dim">IFS Cloud Config · BPA Workflows · Lobbies</span></div>
-      <div class="info-row"><span class="info-key">intermediate</span><span class="info-val dim">IFS Connect · REST APIs · Reports</span></div>
+    <div class="stat">
+      <div class="stat-num">40+</div>
+      <div class="stat-label">Articles</div>
     </div>
-
-    <div class="hero-stats">
-      <div class="hstat">
-        <span class="hstat-num">6+</span>
-        <span class="hstat-label">yrs IFS</span>
-      </div>
-      <div class="hstat">
-        <span class="hstat-num">40+</span>
-        <span class="hstat-label">articles</span>
-      </div>
-      <div class="hstat">
-        <span class="hstat-num">0</span>
-        <span class="hstat-label">paywalls</span>
-      </div>
-      <div class="hstat">
-        <span class="hstat-num">∞</span>
-        <span class="hstat-label">traces</span>
-      </div>
+    <div class="stat">
+      <div class="stat-num">0</div>
+      <div class="stat-label">Paywalls</div>
     </div>
   </div>
-
-  <!-- TERMINAL WINDOW -->
-  <div class="terminal-win reveal">
-    <div class="term-titlebar">
-      <div class="term-dot r"></div>
-      <div class="term-dot y"></div>
-      <div class="term-dot g"></div>
-      <div class="term-title">inzamam@ifs-debugger:~/blog — bash</div>
-    </div>
-    <div class="term-body">
-      <span class="t-line"><span class="t-prompt">inzamam</span>@<span class="t-path">ifs-debugger</span>:~$ <span class="t-cmd">cat /etc/motd</span></span>
-      <span class="t-line t-ok">  ___  ___  ___   ___  ___ ___ _   _  ___  ___ ___ ___ ___  </span>
-      <span class="t-line t-ok">  |_ _||  _|/ __| |   \| __| _ ) | | |/ __|| __| __| __| _ \ </span>
-      <span class="t-line t-ok">   | | | _| \__ \ | |) | _|| _ \ |_| | (_ || _|| _|| _||   / </span>
-      <span class="t-line t-ok">  |___||_|  |___/ |___/|___|___/\___/ \___||_| |___|___|_|_\ </span>
-      <span class="t-gap"></span>
-      <span class="t-line"><span class="t-prompt">inzamam</span>@<span class="t-path">ifs-debugger</span>:~$ <span class="t-cmd">ls -la ./latest/</span></span>
-      <span class="t-line t-out">drwxr-xr-x  ifs-projection-apis-complete-ref/</span>
-      <span class="t-line t-out">drwxr-xr-x  ifs-app10-dev-environment-2025/</span>
-      <span class="t-line t-out">drwxr-xr-x  plsql-performance-traps-batch/</span>
-      <span class="t-line t-out">drwxr-xr-x  ifs-connect-routing-underdoc/</span>
-      <span class="t-gap"></span>
-      <span class="t-line"><span class="t-prompt">inzamam</span>@<span class="t-path">ifs-debugger</span>:~$ <span class="t-cmd">./check_status.sh</span></span>
-      <span class="t-line t-ok">✔ Blog engine         [RUNNING]</span>
-      <span class="t-line t-ok">✔ Ko-fi donations     [OPEN]</span>
-      <span class="t-line t-ok">✔ New articles        [IN PROGRESS]</span>
-      <span class="t-line t-warn">⚠ Paywall             [DISABLED — intentional]</span>
-      <span class="t-line t-ok">✔ LinkedIn syndication [ACTIVE]</span>
-      <span class="t-gap"></span>
-      <span class="t-line"><span class="t-prompt">inzamam</span>@<span class="t-path">ifs-debugger</span>:~$ <span class="cursor"></span></span>
-    </div>
-  </div>
+  -->
 </div>
 
 <!-- ARTICLES -->
 <div class="articles-section" id="articles">
-  <div class="sec-header reveal">
-    <span class="sec-prompt">~/articles $</span>
-    <span class="sec-title">ls -la</span>
-    <div class="sec-line"></div>
-    <span class="sec-count">// 5 of 40+ entries shown</span>
+  <div class="section-header">
+    <h2 class="section-title">Latest Articles</h2>
+    <a href="#" class="view-all">View all →</a>
   </div>
 
-  <div class="file-listing-header reveal">
-    <span>filename</span>
-    <span>category</span>
-    <span>date</span>
-    <span style="text-align:right">size</span>
-  </div>
-
-  <div class="post-list">
+  <div class="articles-grid">
 
     <!-- FEATURED -->
-    <a href="#" class="post-featured reveal">
-      <div class="feat-top">
-        <span class="post-flag flag-featured">★ featured</span>
-        <span class="post-flag flag-deep">deep-dive</span>
-        <span class="post-date-badge">2025-03-12</span>
+     <!-- PLACEHOLDER ARTICLES 
+    <a href="articles/ifs-aurena-frontend-debugging-tips/index.html" class="article-card featured">
+      <div class="article-meta">
+        <span class="article-tag featured">Featured</span>
+        <span class="article-tag">IFS Cloud</span>
+        <span>20 Mar 2025</span>
+        <span>•</span>
+        <span>12 min read</span>
       </div>
-      <div class="feat-title">ifs_projection_apis_complete_reference.md</div>
-      <div class="feat-excerpt">
-        IFS Cloud's Projection API marks a significant departure from the classic PL/SQL-first approach. This guide walks through the metadata layer, how Aurena consumes projections, and how to build custom projections from scratch — including the bits the official docs leave out entirely.
-      </div>
-      <div class="code-snip">
-        <span class="cm">-- Custom projection entity override</span><br>
-        <span class="kw">@Override</span><br>
-        <span class="fn">PROCEDURE</span> Get_Custom_Entity__ (<br>
-        &nbsp;&nbsp;entity_id_&nbsp;&nbsp;<span class="kw">IN</span>&nbsp;&nbsp;VARCHAR2,<br>
-        &nbsp;&nbsp;rec_&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">OUT</span> <span class="str">Custom_Entity_Rec</span><br>
-        ) <span class="kw">IS</span><br>
-        &nbsp;&nbsp;<span class="cm">-- Bind via metadata layer ...</span>
-      </div>
-      <div class="feat-footer">
-        <div class="feat-tags">
-          <span class="ftag">IFS-Cloud</span>
-          <span class="ftag">Projections</span>
-          <span class="ftag">Aurena</span>
-          <span class="ftag">FNDMDT</span>
-        </div>
-        <span class="read-cmd">cat article.md →</span>
+      <h3 class="article-title-card">IFS Aurena Frontend Debugging Tips That Will Save Your Sanity</h3>
+      <p class="article-excerpt">
+        Aurena's client-side behaviour can feel like a black box. The UI does something unexpected, you get a vague error toast, and the only thing staring back at you is a minified JavaScript bundle. This article covers the practical debugging techniques I actually use to trace frontend issues in IFS Cloud fast.
+      </p>
+      <div class="article-footer">
+        <span class="read-time">IFS Cloud / Aurena / DevTools</span>
+        <span class="read-more">Read article →</span>
       </div>
     </a>
 
-    <!-- FILE ROWS -->
-    <a href="#" class="post-row reveal">
-      <div class="row-name">
-        <span class="row-icon">📄</span>
-        <span class="row-title">ifs_app10_dev_environment_setup_2025.md</span>
+    
+    <a href="#" class="article-card">
+      <div class="article-meta">
+        <span class="article-tag tutorial">Tutorial</span>
+        <span>28 Feb 2025</span>
+        <span>•</span>
+        <span>8 min read</span>
       </div>
-      <span class="row-cat">tutorial</span>
-      <span class="row-date">2025-02-28</span>
-      <span class="row-size">8 min</span>
-    </a>
-
-    <a href="#" class="post-row reveal">
-      <div class="row-name">
-        <span class="row-icon">📄</span>
-        <span class="row-title">plsql_performance_traps_ifs_batch_jobs.md</span>
+      <h3 class="article-title-card">Setting Up a Local IFS App10 Dev Environment in 2025</h3>
+      <p class="article-excerpt">
+        Step-by-step walkthrough of configuring Oracle 19c + IFS App10 for local development — including common pitfalls and the patches you actually need.
+      </p>
+      <div class="article-footer">
+        <span class="read-time">IFS App10 / Oracle / Setup</span>
+        <span class="read-more">Read article →</span>
       </div>
-      <span class="row-cat">debug</span>
-      <span class="row-date">2025-02-14</span>
-      <span class="row-size">6 min</span>
     </a>
-
-    <a href="#" class="post-row reveal">
-      <div class="row-name">
-        <span class="row-icon">📄</span>
-        <span class="row-title">ifs_connect_routing_rules_underdocumented.md</span>
+    
+    <a href="#" class="article-card">
+      <div class="article-meta">
+        <span class="article-tag tips">Tips</span>
+        <span>14 Feb 2025</span>
+        <span>•</span>
+        <span>6 min read</span>
       </div>
-      <span class="row-cat">deep-dive</span>
-      <span class="row-date">2025-01-30</span>
-      <span class="row-size">10 min</span>
-    </a>
-
-    <a href="#" class="post-row reveal">
-      <div class="row-name">
-        <span class="row-icon">📄</span>
-        <span class="row-title">custom_quick_reports_ifs_schema_to_output.md</span>
+      <h3 class="article-title-card">5 PL/SQL Performance Traps in IFS That Will Kill Your Batch Jobs</h3>
+      <p class="article-excerpt">
+        From implicit cursors in loops to missing indexes on custom tables — these are the patterns that quietly destroy IFS batch performance.
+      </p>
+      <div class="article-footer">
+        <span class="read-time">PL/SQL / Performance / IFS</span>
+        <span class="read-more">Read article →</span>
       </div>
-      <span class="row-cat">tutorial</span>
-      <span class="row-date">2025-01-18</span>
-      <span class="row-size">7 min</span>
+    </a>
+    PLACEHOLDER ARTICLES -->
+
+    <!-- ARTICLES -->
+    <a href="#" class="article-card">
+      <div class="article-meta">
+        <span class="article-tag">Deep Dive</span>
+        <span>25 Feb 2026</span>
+        <span>•</span>
+        <span>10 min read</span>
+      </div>
+      <h3 class="article-title-card">Dialogs VS. Assistants in IFS Cloud</h3>
+      <p class="article-excerpt">
+        A detailed look at how IFS Cloud's dialog and assistant components work differently, and when to use each in your feature implementations.
+      </p>
+      <div class="article-footer">
+        <span class="read-time">IFS Cloud / Aurena / UI Components</span>
+        <span class="read-more">Read article →</span>
+      </div>
     </a>
 
-  </div>
-</div>
-
-<!-- TOPICS -->
-<div class="topics-section" id="topics">
-  <div class="sec-header reveal">
-    <span class="sec-prompt">~/topics $</span>
-    <span class="sec-title">ls --group-directories</span>
-    <div class="sec-line"></div>
-    <span class="sec-count">// 8 directories</span>
-  </div>
-  <div class="topics-grid">
-    <a href="#" class="topic-card reveal">
-      <span class="topic-cmd">plsql-and-database</span>
-      <span class="topic-name">PL/SQL & Database</span>
-      <span class="topic-count">14 articles</span>
-      <div class="topic-bar"><div class="topic-fill" style="width:90%"></div></div>
-    </a>
-    <a href="#" class="topic-card reveal">
-      <span class="topic-cmd">ifs-aurena-buildplace</span>
-      <span class="topic-name">Aurena & Buildplace</span>
-      <span class="topic-count">10 articles</span>
-      <div class="topic-bar"><div class="topic-fill" style="width:65%"></div></div>
-    </a>
-    <a href="#" class="topic-card reveal">
-      <span class="topic-cmd">ifs-customisations</span>
-      <span class="topic-name">Customisations</span>
-      <span class="topic-count">12 articles</span>
-      <div class="topic-bar"><div class="topic-fill" style="width:78%"></div></div>
-    </a>
-    <a href="#" class="topic-card reveal">
-      <span class="topic-cmd">ifs-cloud-config</span>
-      <span class="topic-name">IFS Cloud Config</span>
-      <span class="topic-count">8 articles</span>
-      <div class="topic-bar"><div class="topic-fill" style="width:52%"></div></div>
-    </a>
-    <a href="#" class="topic-card reveal">
-      <span class="topic-cmd">bpa-workflows-lobbies</span>
-      <span class="topic-name">BPA & Lobbies</span>
-      <span class="topic-count">7 articles</span>
-      <div class="topic-bar"><div class="topic-fill" style="width:45%"></div></div>
-    </a>
-    <a href="#" class="topic-card reveal">
-      <span class="topic-cmd">performance-tuning</span>
-      <span class="topic-name">Performance Tuning</span>
-      <span class="topic-count">9 articles</span>
-      <div class="topic-bar"><div class="topic-fill" style="width:58%"></div></div>
-    </a>
-    <a href="#" class="topic-card reveal">
-      <span class="topic-cmd">ifs-connect-apis</span>
-      <span class="topic-name">Connect & APIs</span>
-      <span class="topic-count">6 articles</span>
-      <div class="topic-bar"><div class="topic-fill" style="width:38%"></div></div>
-    </a>
-    <a href="#" class="topic-card reveal">
-      <span class="topic-cmd">debugging-and-fixes</span>
-      <span class="topic-name">Debugging & Fixes</span>
-      <span class="topic-count">11 articles</span>
-      <div class="topic-bar"><div class="topic-fill" style="width:72%"></div></div>
-    </a>
   </div>
 </div>
 
@@ -1116,14 +494,15 @@ footer {
   <div class="about-inner">
     <div class="about-avatar">IZ</div>
     <div>
-      <div class="about-name">Inzamam Ghazzali</div>
+      <h3 class="about-name">Inzamam Ghazzali</h3>
       <p class="about-bio">
-        IFS technical specialist with <strong>6+ years</strong> in the ecosystem — customisations, Aurena development, BPA workflows, integrations, and enough production incidents to write a book. I write here because <strong>good IFS technical documentation is rare</strong>, and the stuff that actually helps developers doesn't exist anywhere else. No paywall. No fluff. Just stack traces and solutions.
+        IFS technical specialist with 6+ years in the IFS development space. I write here to go deep into IFS technical solutions and explore "under-the-hood" topics that may provide useful insights for developers.
       </p>
-    </div>
-    <div class="about-actions">
-      <a href="https://ko-fi.com/inzamam" class="btn-primary-g">☕ Support on Ko-fi</a>
-      <a href="https://linkedin.com/in/inzamam" class="btn-outline-g">LinkedIn →</a>
+      <div class="about-links">
+        <a href="https://linkedin.com/in/inzamam">LinkedIn →</a>
+        <a href="https://github.com/Inzamam93">GitHub →</a>
+        <a href="https://ko-fi.com/inzamam">☕ Ko-fi →</a>
+      </div>
     </div>
   </div>
 </div>
@@ -1131,44 +510,15 @@ footer {
 <!-- FOOTER -->
 <footer>
   <div class="footer-inner">
-    <div>
-      <div class="footer-logo">root@ifs:~$ THE IFS DEBUGGER</div>
-      <div class="footer-tagline">Following the stack trace so you don't have to · by Inzamam Ghazzali</div>
-    </div>
+    <div class="footer-text">© 2025 Inzamam Ghazzali · The IFS Debugger</div>
     <ul class="footer-links">
-      <li><a href="#">./articles</a></li>
-      <li><a href="#">./topics</a></li>
-      <li><a href="#">./about</a></li>
-      <li><a href="#">./ko-fi</a></li>
-      <li><a href="https://github.com/Inzamam93">./github</a></li>
+      <li><a href="#articles">Articles</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="https://github.com/Inzamam93">GitHub</a></li>
+      <li><a href="https://ko-fi.com/inzamam">Ko-fi</a></li>
     </ul>
-    <div class="footer-copy">© 2025 Inzamam Ghazzali · exit 0</div>
   </div>
 </footer>
 
-<script>
-  // Scroll reveal
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('visible'), i * 55);
-      }
-    });
-  }, { threshold: 0.06 });
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-  // Nav active state on scroll
-  const sections = document.querySelectorAll('[id]');
-  const navLinks = document.querySelectorAll('.nav-links a');
-  window.addEventListener('scroll', () => {
-    let current = '';
-    sections.forEach(s => {
-      if (window.scrollY >= s.offsetTop - 100) current = s.id;
-    });
-    navLinks.forEach(a => {
-      a.classList.toggle('active', a.getAttribute('href') === `#${current}` || (!current && a.getAttribute('href') === '#'));
-    });
-  });
-</script>
 </body>
 </html>

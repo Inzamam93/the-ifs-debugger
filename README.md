@@ -1,12 +1,12 @@
-# The IFS Debugger (🚧 **This project is under construction** 🚧)
+# The IFS Debugger
 
 > *Following the stack trace so you don't have to.*
 
 Personal technical blog by **Inzamam** — deep-dive articles on IFS Applications development, customisation, integrations, and performance tuning.
 
-🌐 **Live site:** [inzamam93.github.io/the-ifs-debugger]([https://inzamam93.github.io/the-ifs-debugger/])
+🌐 **Live site:** [theifsdebugger.com](https://theifsdebugger.com)
 ☕ **Support:** [ko-fi.com/inzamam](https://ko-fi.com/inzamam)
-💼 **LinkedIn:** [linkedin.com/in/inzamam](https://linkedin.com/in/inzamam-ghazzali/)
+💼 **LinkedIn:** [linkedin.com/in/inzamam](https://linkedin.com/in/inzamam)
 
 ---
 
