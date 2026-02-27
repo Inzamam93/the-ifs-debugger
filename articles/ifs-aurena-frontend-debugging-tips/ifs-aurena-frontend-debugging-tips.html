@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IFS Aurena Frontend Debugging Tips — The IFS Debugger</title>
+<meta name="description" content="Practical IFS Aurena frontend debugging tips for intermediate developers. Learn how to use browser DevTools, projection tracing, and client-side error handling to debug Aurena faster.">
+<meta name="author" content="Inzamam Ghazzali">
+<link rel="canonical" href="https://inzamam93.github.io/the-ifs-debugger/articles/ifs-aurena-frontend-debugging-tips/">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Shared styles across all pages -->
+<link rel="stylesheet" href="../../style.css">
+
+<!-- Article page-specific styles -->
+<style>
+/* Article page overrides */
+body {
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.nav-container {
+  max-width: 800px;
+}
+
+/* ═══ ARTICLE CONTAINER ═══ */
+.article-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 3rem 2rem 5rem;
+}
+
+/* ═══ ARTICLE HEADER ═══ */
+.article-header {
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.article-tags {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.tag {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.tag.featured {
+  background: var(--green);
+  color: white;
+}
+
+.tag.intermediate {
+  background: var(--amber);
+  color: white;
+}
+
+.tag.cloud {
+  background: var(--purple);
+  color: white;
+}
+
+.article-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.article-meta .author {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.lead {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin: 2rem 0;
+  padding-left: 1.5rem;
+  border-left: 4px solid var(--accent);
+  font-style: italic;
+}
+
+/* ═══ ARTICLE FOOTER ═══ */
+.article-footer {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+
+.footer-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.footer-tag {
+  font-size: 0.8rem;
+  color: var(--accent);
+  background: var(--surface);
+  padding: 0.3rem 0.75rem;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.footer-tag:hover {
+  background: #e1f0ff;
+}
+
+/* ═══ AUTHOR CARD ═══ */
+.author-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 2rem;
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.author-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--green));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  flex-shrink: 0;
+}
+
+.author-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.25rem;
+}
+
+.author-bio {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+}
+
+.author-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.author-links a {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.author-links a:hover {
+  text-decoration: underline;
+}
+
+/* ═══ FOOTER OVERRIDE ═══ */
+footer .footer-inner {
+  max-width: 800px;
+  text-align: center;
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-container">
+    <a href="../../index.html" class="back-link">← Back</a>
+    <a href="../../index.html" class="logo">The IFS <span>Debugger</span></a>
+    <a href="https://ko-fi.com/inzamam" class="btn-kofi">☕ Coffee</a>
+  </div>
+</nav>
+
+<!-- ARTICLE -->
+<article class="article-container">
+  
+  <header class="article-header">
+    <div class="article-tags">
+      <span class="tag featured">Tutorial</span>
+      <span class="tag cloud">IFS Cloud</span>
+      <span class="tag intermediate">Intermediate</span>
+    </div>
+    <h1>IFS Aurena Frontend Debugging Tips That Will Save Your Sanity</h1>
+    <div class="article-meta">
+      <span class="author">Inzamam Ghazzali</span>
+      <span>•</span>
+      <span>20 Mar 2025</span>
+      <span>•</span>
+      <span>12 min read</span>
+    </div>
+  </header>
+
+  <p class="lead">
+    Aurena's client-side behaviour can feel like a black box. The UI does something unexpected, you get a vague error toast, and the only thing staring back at you is a minified JavaScript bundle. This article covers the practical debugging techniques I actually use — not the sanitised official ones — to trace frontend issues in IFS Cloud fast.
+  </p>
+
+  <h2>Your Best Friend: The Browser DevTools</h2>
+  <p>
+    If you're not already living in the browser's DevTools while debugging Aurena, start now. <strong>F12</strong> (or <code>Ctrl+Shift+I</code>) is your debugger console, network inspector, and DOM explorer all in one. Most IFS developers underuse it — here's what to actually look at.
+  </p>
+
+  <h3>The Console Tab</h3>
+  <p>
+    Aurena logs a surprising amount of useful information to the console if you know what to filter for. The noise-to-signal ratio is high, but filtering by <em>Errors</em> and <em>Warnings</em> first cuts through 80% of the noise. Look specifically for:
+  </p>
+  <ul>
+    <li><strong>Uncaught Promise rejections</strong> — these often surface projection call failures that don't make it to the UI toast</li>
+    <li><strong>404s on .js or .json resources</strong> — a sign of a missing custom component or misconfigured deployment</li>
+    <li><strong>CORS errors</strong> — particularly relevant when debugging IFS Connect-backed pages</li>
+  </ul>
+
+  <div class="box tip">
+    <strong>💡 Tip</strong>
+    In Chrome DevTools, right-click the console filter area and enable <strong>"Verbose"</strong> level logging. Aurena emits additional projection lifecycle events at verbose level that are hidden by default. These are gold when tracing why a page isn't populating data.
+  </div>
+
+  <h3>The Network Tab</h3>
+  <p>
+    This is where most of your Aurena debugging will actually happen. Every interaction Aurena makes with the backend goes through the network tab as an <strong>XHR or Fetch</strong> request. Filter by <code>Fetch/XHR</code> and watch what fires when you trigger the broken action.
+  </p>
+  <p>
+    The key request to look for is the <strong>projection call</strong> — it'll look something like this:
+  </p>
+
+  <pre><code>// Typical Aurena projection request URL pattern
+POST /main/ifsapp/projection/v1/YourProjectionName/actions/ActionName
+
+// Or for entity reads:
+GET  /main/ifsapp/projection/v1/YourProjectionName/EntityNameSet(key='VALUE')</code></pre>
+
+  <p>
+    Click on that request, go to the <strong>Response</strong> tab, and you'll see the raw JSON back from the server — including any server-side error detail that the UI swallowed. This is usually more informative than whatever toast Aurena showed you.
+  </p>
+
+  <div class="box warn">
+    <strong>⚠ Watch Out</strong>
+    Aurena often returns HTTP 200 even on logical errors — the error detail is buried inside the JSON response body under an <code>error</code> or <code>message</code> key. Always check the response body, not just the status code.
+  </div>
+
+  <h2>Tracing Projection Calls</h2>
+  <p>
+    Understanding which projection is being called and with what parameters is half the battle. Aurena's OData-based projection API is verbose but readable once you know the pattern. Here's how to trace a full projection interaction.
+  </p>
+
+  <h3>Reading the Request Payload</h3>
+  <p>
+    For <strong>action calls</strong> (e.g. posting a transaction, running a command), click the network request and go to the <strong>Payload</strong> tab. You'll see the JSON body sent to the server:
+  </p>
+
+  <pre><code>// Example action call payload — Network → Payload tab
+{
+  "selection": {
+    "KeyRef": "ORDER_NO=ORD-12345^"
+  },
+  "parameters": {
+    "PostingDate": "2025-03-20",
+    "NoteText":    "Manually triggered via UI"
+  }
+}</code></pre>
+
+  <p>
+    This tells you exactly what data Aurena is sending to your projection action. If the action is failing, compare this against what your <strong>PL/SQL action procedure</strong> expects. Nine times out of ten, the mismatch is in parameter naming — Aurena is case-sensitive and expects the parameter names to match the projection metadata exactly.
+  </p>
+
+  <h2>Enabling Aurena Debug Mode</h2>
+  <p>
+    IFS Cloud has a built-in debug mode for Aurena that surfaces additional runtime information. It's not prominently documented, but it's invaluable. Here's how to enable it.
+  </p>
+
+  <h3>URL Parameter Method</h3>
+  <p>
+    Append <code>?debug=true</code> to your Aurena URL. Some IFS Cloud versions also support <code>?logLevel=debug</code>. This enables:
+  </p>
+  <ul>
+    <li>Extended console logging for component lifecycle events</li>
+    <li>Projection metadata resolution logging</li>
+    <li>Client-side validation rule tracing</li>
+    <li>Additional error detail in toast messages</li>
+  </ul>
+
+  <pre><code>// Example: enabling debug mode on a specific page
+https://your-ifs-instance.com/main/ifsapp/CustomerOrder?debug=true
+
+// Or combined with a specific page context:
+https://your-ifs-instance.com/main/ifsapp/CustomerOrder?debug=true&logLevel=verbose</code></pre>
+
+  <div class="box gotcha">
+    <strong>🔴 Gotcha</strong>
+    Do not leave <code>?debug=true</code> in bookmarks or share debug-mode URLs with end users. In some IFS Cloud configurations, debug mode bypasses certain client-side permission checks and can expose metadata that shouldn't be visible in production.
+  </div>
+
+  <h2>DOM Inspection for Binding Issues</h2>
+  <p>
+    When a field isn't populating, isn't editable, or is behaving unexpectedly, the <strong>Elements tab</strong> in DevTools is your next stop. Aurena renders its components with <code>data-</code> attributes that expose projection binding information directly in the DOM.
+  </p>
+
+  <h3>Finding Projection Binding in the DOM</h3>
+  <p>
+    Right-click the problematic field in Aurena and select <strong>Inspect</strong>. Look for attributes like:
+  </p>
+
+  <pre><code>&lt;ifs-field
+  data-projection="CustomerOrderHandling"
+  data-entity="CustomerOrderSet"
+  data-attribute="WantedDeliveryDate"
+  data-binding="twoWay"
+  data-editable="false"
+  data-visibility="visible"
+&gt;</code></pre>
+
+  <p>
+    See that <code>data-editable="false"</code>? That tells you the field is being made read-only by the projection metadata — not by a client-side condition. This means you need to go to the <strong>server-side projection definition</strong> and check the attribute's editability conditions for the current entity state.
+  </p>
+
+  <h2>Querying the Metadata Endpoint Directly</h2>
+  <p>
+    This is the technique most developers don't know about, and it's one of the most powerful debugging tools in the Aurena arsenal. Every projection exposes a <strong>metadata endpoint</strong> that returns the full structural definition of the projection — entities, attributes, actions, editability rules — as JSON.
+  </p>
+
+  <pre><code>// Query the projection metadata directly in your browser
+GET /main/ifsapp/projection/v1/YourProjectionName/$metadata
+
+// Example:
+GET /main/ifsapp/projection/v1/CustomerOrderHandling/$metadata</code></pre>
+
+  <p>
+    Paste that URL in a new browser tab while logged into IFS. You'll get back an XML or JSON document (depending on your IFS version) describing every entity, attribute, action and their associated metadata — including <strong>editability conditions, required flags, and state-based rules</strong>.
+  </p>
+
+  <div class="box tip">
+    <strong>💡 Tip</strong>
+    Install the <strong>JSON Formatter</strong> Chrome extension before doing this. The metadata response is large and unreadable without formatting. Once formatted, use <code>Ctrl+F</code> to search for the specific attribute or action you're debugging.
+  </div>
+
+  <h2>Debugging Client-Side Validation Rules</h2>
+  <p>
+    Aurena supports client-side validation rules defined in the projection that run before any server call is made. These are common culprits when a save or action is silently blocked — the validation fails on the client, the server is never called, and the only indicator is a subtle field highlight or a vague toast.
+  </p>
+
+  <h3>Identifying Client-Side vs Server-Side Blocks</h3>
+  <p>
+    The quick way to tell them apart:
+  </p>
+  <ul>
+    <li><strong>No network request fired</strong> when you click Save/OK → client-side validation block</li>
+    <li><strong>Network request fired but returns an error</strong> → server-side validation block</li>
+  </ul>
+  <p>
+    If no request fires, go to the <strong>Network tab</strong>, trigger the action, and confirm nothing appears in the XHR/Fetch list. Then look at the console for validation-related log entries.
+  </p>
+
+  <hr>
+
+  <div class="article-footer">
+    <div class="footer-tags">
+      <a href="#" class="footer-tag">#IFS-Cloud</a>
+      <a href="#" class="footer-tag">#Aurena</a>
+      <a href="#" class="footer-tag">#Debugging</a>
+      <a href="#" class="footer-tag">#Frontend</a>
+      <a href="#" class="footer-tag">#DevTools</a>
+      <a href="#" class="footer-tag">#Projections</a>
+    </div>
+
+    <div class="author-card">
+      <div class="author-avatar">IZ</div>
+      <div>
+        <div class="author-name">Inzamam Ghazzali</div>
+        <div class="author-bio">IFS technical specialist — 6+ years in customisations, Aurena development, BPA workflows, and integrations. Writing the docs that don't exist.</div>
+        <div class="author-links">
+          <a href="https://linkedin.com/in/inzamam">LinkedIn →</a>
+          <a href="https://github.com/Inzamam93">GitHub →</a>
+          <a href="https://ko-fi.com/inzamam">☕ Ko-fi →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</article>
+
+<footer>
+  <div class="footer-inner">
+    © 2025 Inzamam Ghazzali · The IFS Debugger
+  </div>
+</footer>
+
+</body>
+</html>
